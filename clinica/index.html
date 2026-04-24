@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClinicaFácil — Sistema de Gestão</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div id="pg-login" class="login-page">
+  <div class="login-card">
+    <div class="login-logo">ClinicaFácil</div>
+    <div class="login-sub">Sistema de gestão clínica</div>
+    <div class="divider"></div>
+    <div class="perfis-grid">
+      <div class="perfil-btn selected" onclick="selectPerfil(this,'admin')">
+        <div class="perfil-icon pi-admin">AD</div>
+        <div class="perfil-name">Admin</div>
+        <div class="perfil-role">Gestor</div>
+      </div>
+      <div class="perfil-btn" onclick="selectPerfil(this,'medico')">
+        <div class="perfil-icon pi-medico">DR</div>
+        <div class="perfil-name">Médico</div>
+        <div class="perfil-role">Dr. Costa</div>
+      </div>
+      <div class="perfil-btn" onclick="selectPerfil(this,'recepcao')">
+        <div class="perfil-icon pi-recepcao">RC</div>
+        <div class="perfil-name">Recepção</div>
+        <div class="perfil-role">Atendente</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">E-mail</label>
+      <input class="form-input" id="login-email" value="admin@clinica.com" placeholder="seu@email.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Senha</label>
+      <input class="form-input" id="login-senha" type="password" value="123456" placeholder="••••••••">
+    </div>
+    <div id="login-erro" style="display:none;background:var(--red-light);color:#A32D2D;padding:8px 12px;border-radius:var(--radius);font-size:13px;margin-bottom:12px"></div>
+    <button class="btn-login" onclick="doLogin()">Entrar</button>
+  </div>
+</div>
+
+<!-- ===== APP ===== -->
+<div id="app-layout" class="app-layout" style="display:none">
+
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sb-header">
+      <div class="sb-logo">ClinicaFácil</div>
+      <div class="sb-user" id="sb-user">—</div>
+      <div class="sb-badge" id="sb-badge"></div>
+    </div>
+    <div class="nav-list" id="nav-list"></div>
+    <div class="sb-footer">
+      <button class="btn-logout" onclick="doLogout()">Sair da conta</button>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="main-content">
+
+    <!-- DASHBOARD -->
+    <div id="pg-dashboard" class="page">
+      <p class="page-title">Painel geral</p>
+      <p class="page-sub" id="dash-data">—</p>
+      <!-- FIX: IDs dinâmicos nas métricas -->
+      <div class="metrics metrics-4">
+        <div class="metric-card"><div class="metric-label">Consultas agendadas</div><div class="metric-value mv-green" id="dash-v-consultas">—</div></div>
+        <div class="metric-card"><div class="metric-label">Pacientes ativos</div><div class="metric-value mv-blue" id="dash-v-pacientes">—</div></div>
+        <div class="metric-card"><div class="metric-label">Receita do mês</div><div class="metric-value mv-green" id="dash-v-receita">—</div></div>
+        <div class="metric-card"><div class="metric-label">Leads WhatsApp</div><div class="metric-value mv-amber" id="dash-v-leads">—</div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Próximas consultas</span><button class="btn" onclick="navTo('agenda')">Ver agenda</button></div>
+          <table><thead><tr><th>Paciente</th><th>Hora</th><th>Médico</th><th>Status</th></tr></thead>
+          <tbody id="dash-consultas-body"></tbody></table>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <!-- FIX: IDs dinâmicos para atualização via JS -->
+          <div class="card" id="dash-fin">
+            <div class="card-header"><span class="card-title">Financeiro — mês atual</span><button class="btn" onclick="navTo('financeiro')">Detalhes</button></div>
+            <div class="fin-row"><span style="color:var(--text-muted)">Receitas</span><span style="font-weight:600;color:var(--green)" id="dash-v-fin-receita">—</span></div>
+            <div class="fin-row"><span style="color:var(--text-muted)">Despesas</span><span style="font-weight:600;color:var(--red)" id="dash-v-fin-despesa">—</span></div>
+            <div class="fin-row" style="border:none"><span style="font-weight:600">Saldo</span><span style="font-size:16px;font-weight:700;color:var(--green)" id="dash-v-saldo">—</span></div>
+          </div>
+          <div class="card" id="dash-repasse">
+            <div class="card-header"><span class="card-title">Repasse médico</span><button class="btn" onclick="navTo('repasse')">Ver repasse</button></div>
+            <div id="dash-repasse-body"></div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">
+              Total pendente: <strong id="dash-v-pendente">—</strong>
+            </div>
+          </div>
+          <div class="card" id="dash-crm">
+            <div class="card-header"><span class="card-title">WhatsApp CRM</span><button class="btn" onclick="navTo('whatsapp')">Ver CRM</button></div>
+            <div class="fin-row"><span>IA atendendo</span><span class="badge badge-green">4</span></div>
+            <div class="fin-row"><span>Aguardando humano</span><span class="badge badge-red">2</span></div>
+            <div class="fin-row" style="border:none"><span>Agendados</span><span class="badge badge-blue">1</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AGENDA -->
+    <div id="pg-agenda" class="page">
+      <p class="page-title">Agenda</p>
+      <p class="page-sub" id="agenda-sub">Consultas agendadas</p>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div style="display:flex;gap:6px;align-items:center">
+          <span style="font-size:13px;font-weight:500;padding:0 4px">Abril 2026</span>
+        </div>
+        <button class="btn btn-primary" id="btn-nova-consulta" onclick="openModal('modal-consulta')">+ Nova consulta</button>
+      </div>
+      <div class="card"><div class="table-wrap">
+        <table>
+          <thead><tr><th>Paciente</th><th>Data</th><th>Hora</th><th>Médico</th><th>Tipo</th><th>Status</th><th>Ação</th></tr></thead>
+          <tbody id="agenda-body"></tbody>
+        </table>
+      </div></div>
+    </div>
+
+    <!-- PACIENTES -->
+    <div id="pg-pacientes" class="page">
+      <p class="page-title">Pacientes</p>
+      <p class="page-sub" id="pacientes-sub">Cadastro e histórico</p>
+      <div style="display:flex;gap:8px;margin-bottom:14px">
+        <!-- FIX: busca por nome e telefone -->
+        <input class="search-input" placeholder="Buscar por nome ou telefone..." oninput="buscarPaciente(this.value)">
+        <button class="btn btn-primary" id="btn-novo-paciente" onclick="openModal('modal-paciente')">+ Novo paciente</button>
+      </div>
+      <div class="card"><div class="table-wrap">
+        <table>
+          <thead><tr><th>Nome</th><th>Nascimento</th><th>Telefone</th><th>Convênio</th><th>Médico</th><th>Status</th></tr></thead>
+          <tbody id="pacientes-body"></tbody>
+        </table>
+      </div></div>
+    </div>
+
+    <!-- FINANCEIRO -->
+    <div id="pg-financeiro" class="page">
+      <p class="page-title">Financeiro</p>
+      <p class="page-sub">Receitas e despesas</p>
+      <div class="banner" id="fin-banner">Você pode registrar lançamentos. O painel de saldo é visível apenas para o gestor.</div>
+      <!-- FIX: IDs dinâmicos para atualização via JS -->
+      <div class="metrics metrics-3" id="fin-metrics">
+        <div class="metric-card"><div class="metric-label">Receitas (mês)</div><div class="metric-value mv-green" id="fin-v-receita">—</div></div>
+        <div class="metric-card"><div class="metric-label">Despesas (mês)</div><div class="metric-value mv-red" id="fin-v-despesa">—</div></div>
+        <div class="metric-card"><div class="metric-label">Saldo</div><div class="metric-value mv-green" id="fin-v-saldo">—</div></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Lançamentos</span>
+          <button class="btn btn-primary" onclick="openModal('modal-lancamento')">+ Novo lançamento</button>
+        </div>
+        <div class="table-wrap">
+          <!-- FIX: coluna de excluir adicionada -->
+          <table><thead><tr><th>Descrição</th><th>Data</th><th>Categoria</th><th>Valor</th><th></th></tr></thead>
+          <tbody id="fin-body"></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESTOQUE -->
+    <div id="pg-estoque" class="page">
+      <p class="page-title">Estoque</p>
+      <p class="page-sub">Materiais e insumos</p>
+      <!-- FIX: alerta dinâmico de itens críticos -->
+      <div id="estoque-alerta" class="banner" style="display:none"></div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Itens em estoque</span>
+          <button class="btn btn-primary" onclick="openModal('modal-novoitem')">+ Novo item</button>
+        </div>
+        <div class="table-wrap">
+          <table><thead><tr><th>Item</th><th>Categoria</th><th>Qtd. atual</th><th>Mínimo</th><th>Status</th><th>Ações</th></tr></thead>
+          <tbody id="estoque-body"></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- REPASSE -->
+    <div id="pg-repasse" class="page">
+      <p class="page-title">Repasse médico</p>
+      <p class="page-sub">Valores definidos pelo gestor</p>
+      <div class="metrics metrics-3">
+        <div class="metric-card"><div class="metric-label">Total a pagar (mês)</div><div class="metric-value mv-blue" id="rep-total">—</div></div>
+        <div class="metric-card"><div class="metric-label">Já pago</div><div class="metric-value mv-green" id="rep-pago">—</div></div>
+        <div class="metric-card"><div class="metric-label">Pendente</div><div class="metric-value mv-amber" id="rep-pendente">—</div></div>
+      </div>
+      <div class="rep-tabs">
+        <div class="rep-tab active" onclick="selRepTab('resumo',this)">Resumo do mês</div>
+        <div class="rep-tab" onclick="selRepTab('config',this)">Configurar</div>
+        <div class="rep-tab" onclick="selRepTab('hist',this)">Histórico</div>
+      </div>
+      <div id="rep-sec-resumo" class="rep-section active">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Repasses — abril 2026</span>
+            <button class="btn btn-primary" onclick="abrirModalPagamento()">+ Registrar pagamento</button>
+          </div>
+          <div class="table-wrap">
+            <table><thead><tr><th>Médico</th><th>Esp.</th><th>Consultas</th><th>Modelo</th><th>A pagar</th><th>Status</th><th></th></tr></thead>
+            <tbody id="rep-body"></tbody></table>
+          </div>
+        </div>
+      </div>
+      <div id="rep-sec-config" class="rep-section">
+        <div id="cfg-cards"></div>
+      </div>
+      <div id="rep-sec-hist" class="rep-section">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Histórico de pagamentos</span></div>
+          <div class="table-wrap">
+            <table><thead><tr><th>Médico</th><th>Referência</th><th>Valor pago</th><th>Observação</th><th>Data</th><th>Forma</th></tr></thead>
+            <tbody id="rep-hist-body"></tbody></table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHATSAPP CRM -->
+    <div id="pg-whatsapp" class="page">
+      <p class="page-title">WhatsApp CRM</p>
+      <p class="page-sub">Atendimento automatizado com IA</p>
+      <div id="wpp-config-block" class="card" style="margin-bottom:16px">
+        <div class="card-header">
+          <span class="card-title">Configuração da conexão</span>
+          <button class="btn btn-sm" onclick="this.closest('.card').querySelector('.wpp-config-body').style.display = this.closest('.card').querySelector('.wpp-config-body').style.display === 'none' ? 'block' : 'none'">Mostrar / ocultar</button>
+        </div>
+        <div class="wpp-config-body" style="display:none">
+          <div id="wpp-status-box"></div>
+        </div>
+      </div>
+      <div class="crm-layout">
+        <div class="leads-panel">
+          <!-- FIX: busca de leads funcional -->
+          <div class="leads-head">
+            <input class="search-input" style="font-size:12px;padding:7px 10px" placeholder="Buscar lead..." oninput="renderLeads(this.value)">
+          </div>
+          <div class="leads-list" id="leads-list"></div>
+        </div>
+        <div class="chat-panel">
+          <div class="chat-header">
+            <div class="flex-row">
+              <div class="avatar av-green" id="chat-avatar">MO</div>
+              <div>
+                <div style="font-size:14px;font-weight:600" id="chat-name">—</div>
+                <div style="font-size:11px;color:var(--text-muted)" id="chat-phone">—</div>
+              </div>
+            </div>
+            <div class="flex-row">
+              <div class="status-pill pill-ia" id="chat-status-pill">IA ativa</div>
+              <button class="btn btn-sm btn-danger" id="btn-escalate" onclick="escalateChat()">Assumir</button>
+            </div>
+          </div>
+          <div class="chat-messages" id="chat-msgs"></div>
+          <div class="chat-footer">
+            <!-- FIX: placeholder indica Enter para enviar -->
+            <textarea class="chat-input" rows="2" placeholder="Responder como humano... (Enter envia, Shift+Enter = nova linha)" id="chat-input-field"></textarea>
+            <button class="btn btn-primary" onclick="sendHumanMsg()">Enviar</button>
+          </div>
+        </div>
+        <div class="crm-side">
+          <div class="info-block">
+            <div class="info-label">Lead</div>
+            <div class="info-row"><span style="color:var(--text-muted)">Nome</span><span id="i-nome">—</span></div>
+            <div class="info-row"><span style="color:var(--text-muted)">Tel.</span><span id="i-tel">—</span></div>
+            <div class="info-row"><span style="color:var(--text-muted)">Origem</span><span>WhatsApp</span></div>
+          </div>
+          <div class="info-block">
+            <div class="info-label">Agendamento</div>
+            <div class="info-row"><span style="color:var(--text-muted)">Data</span><span id="i-data">—</span></div>
+            <div class="info-row"><span style="color:var(--text-muted)">Hora</span><span id="i-hora">—</span></div>
+            <div class="info-row"><span style="color:var(--text-muted)">Médico</span><span id="i-med">—</span></div>
+          </div>
+          <div class="info-block">
+            <div class="info-label">Resumo IA</div>
+            <div style="font-size:12px;color:var(--text-muted);line-height:1.6" id="i-hist">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- USUÁRIOS (só admin) -->
+    <div id="pg-usuarios" class="page">
+      <p class="page-title">Usuários do sistema</p>
+      <p class="page-sub">Gerencie quem tem acesso ao ClinicaFácil — visível apenas para o gestor</p>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div style="font-size:13px;color:var(--text-muted)"><span id="total-usuarios"></span></div>
+        <button class="btn btn-primary" onclick="openModal('modal-novo-usuario')">+ Novo usuário</button>
+      </div>
+      <div class="card"><div class="table-wrap">
+        <table>
+          <thead><tr><th>Usuário</th><th>Perfil</th><th>Último acesso</th><th>Status</th><th></th></tr></thead>
+          <tbody id="usuarios-body"></tbody>
+        </table>
+      </div></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ===== MODAIS ===== -->
+
+<!-- Nova Consulta — FIX: IDs nos inputs + handler funcional no botão -->
+<div class="modal-overlay" id="modal-consulta">
+  <div class="modal">
+    <div class="modal-title">Nova consulta</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Paciente *</label>
+        <input class="form-input" id="nc-pac" placeholder="Nome do paciente">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Data *</label>
+        <input class="form-input" id="nc-data" type="date">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Horário *</label>
+        <input class="form-input" id="nc-hora" type="time" value="08:00">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Médico *</label>
+        <select class="form-input" id="nc-medico">
+          <option value="">Selecione...</option>
+          <option>Dr. Costa</option>
+          <option>Dra. Lima</option>
+          <option>Dr. Santos</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Tipo de atendimento</label>
+      <select class="form-input" id="nc-tipo">
+        <option>Consulta particular</option>
+        <option>Convênio Unimed</option>
+        <option>Convênio SulAmérica</option>
+        <option>Convênio Bradesco</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-consulta')">Cancelar</button>
+      <!-- FIX: botão com handler real -->
+      <button class="btn btn-primary" onclick="salvarConsulta()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Novo Paciente — FIX: IDs nos inputs + handler funcional -->
+<div class="modal-overlay" id="modal-paciente">
+  <div class="modal">
+    <div class="modal-title">Novo paciente</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Nome completo *</label>
+        <input class="form-input" id="np-nome" placeholder="Nome">
+      </div>
+      <div class="form-group">
+        <label class="form-label">CPF</label>
+        <input class="form-input" id="np-cpf" placeholder="000.000.000-00">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Data de nascimento</label>
+        <input class="form-input" id="np-nasc" type="date">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Telefone *</label>
+        <input class="form-input" id="np-tel" placeholder="(00) 00000-0000">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Convênio</label>
+        <select class="form-input" id="np-conv">
+          <option>Particular</option>
+          <option>Unimed</option>
+          <option>SulAmérica</option>
+          <option>Bradesco</option>
+          <option>Outros</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Médico responsável</label>
+        <select class="form-input" id="np-medico">
+          <option>Dr. Costa</option>
+          <option>Dra. Lima</option>
+          <option>Dr. Santos</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-paciente')">Cancelar</button>
+      <!-- FIX: botão com handler real -->
+      <button class="btn btn-primary" onclick="salvarPaciente()">Cadastrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Novo Lançamento — FIX: campo data com default, categoria "Fixo" incluída -->
+<div class="modal-overlay" id="modal-lancamento">
+  <div class="modal">
+    <div class="modal-title">Novo lançamento</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Tipo</label>
+        <select class="form-input" id="lan-tipo">
+          <option value="receita">Receita</option>
+          <option value="despesa">Despesa</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Valor (R$) *</label>
+        <input class="form-input" type="number" id="lan-valor" placeholder="0,00" min="0" step="0.01">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Descrição *</label>
+      <input class="form-input" id="lan-desc" placeholder="Ex: Consulta particular — João Silva">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Data *</label>
+        <!-- FIX: data padrão = hoje -->
+        <input class="form-input" type="date" id="lan-data">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Categoria</label>
+        <!-- FIX: categoria "Fixo" incluída (estava nos dados mas não no modal) -->
+        <select class="form-input" id="lan-cat">
+          <option>Consulta</option>
+          <option>Convênio</option>
+          <option>Insumos</option>
+          <option>Fixo</option>
+          <option>Aluguel</option>
+          <option>Outros</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-lancamento')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarLancamento()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Reposição Estoque -->
+<div class="modal-overlay" id="modal-reposicao">
+  <div class="modal">
+    <div class="modal-title">Repor estoque</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">Item: <strong id="rep-item-nome"></strong></p>
+    <div class="form-group">
+      <label class="form-label">Quantidade a adicionar</label>
+      <input class="form-input" type="number" id="rep-quantidade" placeholder="0" min="1">
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-reposicao')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarReposicao()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Novo Item Estoque — FIX: IDs nos inputs + handler funcional -->
+<div class="modal-overlay" id="modal-novoitem">
+  <div class="modal">
+    <div class="modal-title">Novo item no estoque</div>
+    <div class="form-group">
+      <label class="form-label">Nome do item *</label>
+      <input class="form-input" id="ni-nome" placeholder="Ex: Luvas cirúrgicas">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Categoria</label>
+        <select class="form-input" id="ni-cat">
+          <option>EPI</option>
+          <option>Material</option>
+          <option>Higiene</option>
+          <option>Equipamento</option>
+          <option>Medicamento</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Unidade</label>
+        <select class="form-input" id="ni-un">
+          <option>un.</option>
+          <option>frascos</option>
+          <option>caixas</option>
+          <option>pc.</option>
+          <option>pares</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Quantidade inicial</label>
+        <input class="form-input" id="ni-atual" type="number" placeholder="0" min="0">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Quantidade mínima</label>
+        <input class="form-input" id="ni-min" type="number" placeholder="0" min="0">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-novoitem')">Cancelar</button>
+      <!-- FIX: botão com handler real -->
+      <button class="btn btn-primary" onclick="salvarNovoItem()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Registrar Pagamento -->
+<div class="modal-overlay" id="modal-pagamento">
+  <div class="modal">
+    <div class="modal-title">Registrar pagamento</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Médico</label>
+        <select class="form-input" id="rm-medico" onchange="preencherValorRep()">
+          <option value="">Selecione...</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Referência</label>
+        <input class="form-input" value="Abril 2026" id="rm-ref">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Valor (R$)</label>
+        <input class="form-input" type="number" id="rm-valor" placeholder="0" min="0">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Data</label>
+        <input class="form-input" type="date" id="rm-data">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Forma de pagamento</label>
+        <select class="form-input" id="rm-forma">
+          <option>PIX</option>
+          <option>TED</option>
+          <option>Cheque</option>
+          <option>Dinheiro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Observação</label>
+        <input class="form-input" placeholder="Opcional" id="rm-obs">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-pagamento')">Cancelar</button>
+      <button class="btn btn-primary" onclick="confirmarPagamento()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Novo Usuário -->
+<div class="modal-overlay" id="modal-novo-usuario">
+  <div class="modal">
+    <div class="modal-title">Novo usuário</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Nome completo *</label>
+        <input class="form-input" id="nu-nome" placeholder="Ex: Dr. Pereira">
+      </div>
+      <div class="form-group">
+        <label class="form-label">E-mail *</label>
+        <input class="form-input" id="nu-email" type="email" placeholder="email@clinica.com">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Perfil de acesso</label>
+        <select class="form-input" id="nu-perfil">
+          <option value="recepcao">Recepção</option>
+          <option value="medico">Médico</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Senha provisória *</label>
+        <input class="form-input" id="nu-senha" type="password" placeholder="Mínimo 6 caracteres">
+      </div>
+    </div>
+    <div style="background:var(--bg);border-radius:var(--radius);padding:10px 12px;font-size:12px;color:var(--text-muted);margin-bottom:4px">
+      <strong>Permissões:</strong>
+      <strong>Admin</strong> — acesso total ·
+      <strong>Médico</strong> — agenda e seus pacientes ·
+      <strong>Recepção</strong> — agenda, pacientes, lançamentos e CRM
+    </div>
+    <div id="nu-erro" style="display:none;background:var(--red-light);color:#A32D2D;padding:8px 12px;border-radius:var(--radius);font-size:12px;margin-bottom:4px"></div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-novo-usuario')">Cancelar</button>
+      <button class="btn btn-primary" id="nu-btn-salvar" onclick="salvarNovoUsuario()">Criar usuário</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TELA PRIMEIRO ACESSO (Firebase) ===== -->
+<div id="pg-setup" style="display:none;min-height:100vh;align-items:center;justify-content:center;background:var(--bg)" class="login-page">
+  <div class="login-card" style="width:420px">
+    <div class="login-logo">👋 Bem-vindo ao ClinicaFácil</div>
+    <div class="login-sub">Configure sua clínica em menos de 1 minuto</div>
+    <div class="divider"></div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Este é o primeiro acesso. Crie a conta do administrador para começar.</p>
+    <div class="form-group">
+      <label class="form-label">Nome da clínica</label>
+      <input class="form-input" id="setup-clinica" placeholder="Ex: Clínica São Lucas">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Seu nome completo</label>
+      <input class="form-input" id="setup-nome" placeholder="Ex: Dr. Guilherme">
+    </div>
+    <div class="form-group">
+      <label class="form-label">E-mail do administrador</label>
+      <input class="form-input" id="setup-email" type="email" placeholder="admin@suaclinica.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Senha (mínimo 6 caracteres)</label>
+      <input class="form-input" id="setup-senha" type="password" placeholder="••••••••">
+    </div>
+    <div id="setup-erro" style="display:none;background:var(--red-light);color:#A32D2D;padding:9px 12px;border-radius:var(--radius);font-size:13px;margin-bottom:12px"></div>
+    <button class="btn-login" onclick="executarSetup()">Criar conta e entrar</button>
+  </div>
+</div>
+
+<!-- FIX: Script de integração Firebase com graceful degradation para modo demo -->
+<script type="module">
+  let firebaseAtivo = false;
+
+  try {
+    await import('/js/firebase.js');
+    firebaseAtivo = !!(window.fbLogin && window.fbLogout);
+  } catch(e) {
+    console.log('Firebase não configurado — rodando em modo demo.');
+  }
+
+  // Inicialização
+  window.addEventListener('load', async () => {
+    // Preenche data do dashboard
+    const elData = document.getElementById('dash-data');
+    if (elData) {
+      elData.textContent = new Date().toLocaleDateString('pt-BR', {
+        weekday:'long', year:'numeric', month:'long', day:'numeric'
+      });
+    }
+    // Define data padrão no lançamento
+    const lanData = document.getElementById('lan-data');
+    if (lanData) lanData.value = new Date().toISOString().split('T')[0];
+
+    if (!firebaseAtivo) return; // modo demo: usa funções do app.js
+
+    try {
+      const primeiroAcesso = await window.verificarPrimeiroAcesso?.();
+      if (primeiroAcesso) {
+        document.getElementById('pg-login').style.display = 'none';
+        document.getElementById('pg-setup').style.display = 'flex';
+      } else {
+        window.fbOnAuth?.(usuario => {
+          if (usuario) window._carregarApp(usuario);
+        });
+      }
+    } catch(e) {
+      console.log('Erro ao verificar primeiro acesso:', e.message);
+    }
+  });
+
+  // Setup primeiro admin (Firebase)
+  window.executarSetup = async function() {
+    const clinica = document.getElementById('setup-clinica').value.trim();
+    const nome    = document.getElementById('setup-nome').value.trim();
+    const email   = document.getElementById('setup-email').value.trim();
+    const senha   = document.getElementById('setup-senha').value;
+    const erro    = document.getElementById('setup-erro');
+    erro.style.display = 'none';
+    if (!clinica || !nome || !email || !senha) {
+      erro.textContent = 'Preencha todos os campos.'; erro.style.display = 'block'; return;
+    }
+    if (senha.length < 6) {
+      erro.textContent = 'A senha precisa ter pelo menos 6 caracteres.'; erro.style.display = 'block'; return;
+    }
+    try {
+      const usuario = await window.criarPrimeiroAdmin?.({ nome, email, senha, nomeClinica: clinica });
+      document.getElementById('pg-setup').style.display = 'none';
+      window._carregarApp(usuario);
+    } catch(e) {
+      erro.textContent = 'Erro: ' + (e.message || 'Tente novamente.'); erro.style.display = 'block';
+    }
+  };
+
+  // FIX: doLogin sobrescrito SÓ quando Firebase está ativo
+  if (firebaseAtivo) {
+    window.doLogin = async function() {
+      const email = document.getElementById('login-email').value.trim();
+      const senha = document.getElementById('login-senha').value;
+      const erro  = document.getElementById('login-erro');
+      if (erro) erro.style.display = 'none';
+      if (!email || !senha) {
+        if (erro) { erro.textContent = 'Preencha e-mail e senha.'; erro.style.display = 'block'; } return;
+      }
+      try {
+        const usuario = await window.fbLogin(email, senha);
+        document.getElementById('pg-login').style.display = 'none';
+        window._carregarApp(usuario);
+      } catch(e) {
+        if (erro) { erro.textContent = e.message || 'E-mail ou senha incorretos.'; erro.style.display = 'block'; }
+      }
+    };
+
+    // FIX: doLogout com Firebase
+    window.doLogout = async function() {
+      await window.fbLogout?.();
+      document.getElementById('app-layout').style.display = 'none';
+      document.getElementById('pg-login').style.display = 'flex';
+    };
+
+    // FIX: salvarNovoUsuario com Firebase (sobrescrito SÓ quando ativo)
+    window.salvarNovoUsuario = async function() {
+      const nome   = document.getElementById('nu-nome').value.trim();
+      const email  = document.getElementById('nu-email').value.trim();
+      const perfil = document.getElementById('nu-perfil').value;
+      const senha  = document.getElementById('nu-senha').value;
+      const erro   = document.getElementById('nu-erro');
+      erro.style.display = 'none';
+      if (!nome || !email || !senha) {
+        erro.textContent = 'Preencha todos os campos.'; erro.style.display = 'block'; return;
+      }
+      if (senha.length < 6) {
+        erro.textContent = 'Senha precisa ter pelo menos 6 caracteres.'; erro.style.display = 'block'; return;
+      }
+      const btn = document.getElementById('nu-btn-salvar');
+      btn.textContent = 'Criando...'; btn.disabled = true;
+      try {
+        await window.fbCriarUsuario?.({ nome, email, senha, perfil });
+        ['nu-nome','nu-email','nu-senha'].forEach(id => { document.getElementById(id).value = ''; });
+        closeModal('modal-novo-usuario');
+        renderUsuarios();
+        toast(`Usuário ${nome} criado!`);
+      } catch(e) {
+        erro.textContent = 'Erro: ' + (e.message || 'Tente novamente.'); erro.style.display = 'block';
+      } finally {
+        btn.textContent = 'Criar usuário'; btn.disabled = false;
+      }
+    };
+  }
+
+  // Carrega app com perfil Firebase
+  window._carregarApp = function(usuario) {
+    APP.perfil  = usuario.perfil;
+    APP.usuario = usuario.nome || usuario.email;
+    APP.medicoNome = usuario.perfil === 'medico' ? (usuario.nome || '') : '';
+    document.getElementById('app-layout').style.display = 'flex';
+    buildNav();
+    const firstPage = PERFIS[usuario.perfil]?.nav[0] || 'agenda';
+    navTo(firstPage);
+  };
+</script>
+
+<script src="js/app.js"></script>
+</body>
+</html>
