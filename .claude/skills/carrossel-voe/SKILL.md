@@ -103,6 +103,12 @@ Se o usuário pediu para ir direto, não espere aprovação — siga; senão, pe
      só depois ajuste `font_size` (nunca abaixo de ~48 px nos slides internos).
    - Não altere o logo "voe / Empreendedor" nem a grade de fundo.
    - Na capa, o título tem no máximo ~2 linhas de 85–105 px; o subtítulo, até 3 linhas.
+     Título longo (mais de ~6 palavras): reduza a largura da caixa para ~600 px e suba
+     o bloco (título em y≈170, subtítulo em y≈480), senão o texto invade o rosto do
+     palestrante — a foto recortada fica em uma camada acima do texto.
+   - Ao trocar um texto grande de 2 linhas por um de 1 linha (layout de síntese,
+     página 7), reposicione para o bloco ficar centralizado: título em y≈330 e
+     complemento em y≈480. Para títulos de 2 linhas: y≈270 e y≈530.
 4. **Foto da capa**: mantenha a foto da matriz, a não ser que o usuário mande outra ou
    peça variação. Para variar, reutilize fotos de palestra/evento de outros carrosséis VOE
    (ex.: mediaIds `MAHV8ofBjeE`, `MAHLi8cw2hw`) via `update_fill`, ou use a que o usuário enviar

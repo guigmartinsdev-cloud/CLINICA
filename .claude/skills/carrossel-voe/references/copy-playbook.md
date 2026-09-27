@@ -30,6 +30,10 @@ Em carrossel de **evento/venda** (VOE Imersão, mentoria): capa com dor → 2–
 problema com dicas rápidas (→ bullets) → slide de urgência ("restam apenas 5 vagas") →
 CTA com data + "link na bio".
 
+Em carrossel de **lista** ("Os N ... que ..."): capa → quebra de crença → 1 item por slide
+(nome do item grande + "Responde: <pergunta que o item responde>") → síntese → CTA.
+Usa a página 7 da matriz para cada item.
+
 ## Fórmulas de capa (título / subtítulo)
 - **Como + resultado + sem + medo:** "COMO DIZER NÃO SEM PARECER GROSSEIRO" / *Comunicação assertiva é proteger prioridades sem destruir relações.*
 - **Hipótese provocadora:** "SE EU APAGAR SUA LOGO" / *seu cliente ainda reconhece por que deveria escolher você?*
