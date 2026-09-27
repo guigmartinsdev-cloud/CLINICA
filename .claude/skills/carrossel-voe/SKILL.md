@@ -95,7 +95,8 @@ Se o usuário pediu para ir direto, não espere aprovação — siga; senão, pe
    {"type":"create_new_design","title":"VOE — <tema>",
     "operations":[{"type":"insert_pages","source":{"type":"design","design_id":"DAHVQ6x7h9o","page_numbers":[1,2,4,4,4,4,7,8]}}]}
    ```
-   Para misturar matrizes, use várias `insert_pages` em sequência (cada uma com seu `design_id`).
+   Para misturar matrizes, faça várias chamadas em sequência, uma `insert_pages` por chamada:
+   o `merge-designs` aceita **uma única operação por requisição** (inserir, mover ou apagar).
    Essa ferramenta pede aprovação do usuário — explique em uma linha o que será criado.
    Se falhar, use `copy-design` da matriz e depois `merge-designs` (`modify_existing_design`)
    para apagar/reordenar páginas.
