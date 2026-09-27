@@ -56,6 +56,20 @@ A Bebas só tem maiúsculas. Texto longo todo em caixa alta cansa e se lê devag
 - Evite números na Bebas em listas: o "1" dela parece "I" ("01" vira "OI"). A ordem fica
   implícita, ou vai na Raleway.
 
+### Roteiro fechado ("não reescrever")
+
+Quando o usuário manda o texto pronto, não troque nenhuma palavra. Divida cada frase **na ordem
+original**: o começo curto vai na Bebas e o resto continua na Raleway, com letra minúscula
+(ex.: "O líder inseguro" / "precisa se sentir insubstituível e acaba condicionando um time
+de dependentes."). Nesse caso a Raleway pode ter até 4 linhas.
+
+Capa com gancho longo (a capa só tem 2 caixas): a Raleway itálica (42 px, entrelinha 1,3) leva o
+começo e o fim da frase, separados por linhas vazias (`\n` repetido, ~55 px cada). A Bebas,
+com a virada (ex.: "você não é um líder."), fica posicionada nesse vão. Confira na miniatura.
+
+Se o roteiro cita um CTA ou uma data que não veio no texto, não invente: deixe o campo marcado
+e peça o texto ao usuário.
+
 ### Posição dos blocos (escala áurea, acima do logo)
 
 O logo ocupa y ≈ 881–972. O bloco H1 + 42 px + H2 fica centralizado na área 0–860.
