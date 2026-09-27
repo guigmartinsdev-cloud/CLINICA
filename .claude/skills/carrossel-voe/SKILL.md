@@ -26,40 +26,44 @@ Resumo da escala (φ = 1,618, base 42 px):
 
 ## Carrosséis-matriz (Canva)
 
-### Matriz principal — use sempre: `DAHWapQqtrQ` ("VOE — Matriz tipográfica v2")
+### Matriz principal — use sempre: `DAHWakYlTq4` ("VOE — Matriz tipográfica v3 (Bebas + Raleway)")
 
-Já vem com as **3 famílias tipográficas** e a escala áurea aplicadas:
+**Só duas fontes: Bebas (títulos) e Raleway (texto).** Nenhuma outra fonte entra no carrossel.
 
-| Pág. | Layout | Caixas de texto (fonte → nível) |
+| Pág. | Layout | Caixas de texto |
 |---|---|---|
-| 1 | **Capa** — foto do palestrante + degradê azul | Título em **Bebas** (H1 capa) · subtítulo em **Raleway itálico** (H2) |
-| 2 | **Interno** — fundo marinho `#010721` + grade | Cabeçalho em **Didot** (H1 110 px) · subcabeçalho em **sans** (H2 68 px) · corpo em **sans** (P 42 px) |
-| 3 | **Fechamento** — fundo royal `#00135e` + grade + logo VOE | Frase em **Didot** (H1 110 px) |
+| 1 | **Capa**: foto + degradê azul (a foto é **uma** camada só) | Título em **Bebas** (H1) · subtítulo em **Raleway itálico** (H2) |
+| 2 | **Interno**: fundo marinho `#010721` + grade | Cabeçalho em **Bebas** (H1 110 px, centralizado) · texto em **Raleway** (H2 68 px **ou** corpo 42 px) |
+| 3 | **Fechamento**: fundo royal `#00135e` + grade | Frase em **Bebas** (H1 110 px) · assinatura "VOE EMPREENDEDOR" em Raleway 42 px |
 
-A página 2 serve para **todos** os slides internos. Repita-a quantas vezes precisar e
-apague com `delete_element` as caixas que o slide não usa. Exemplos:
-- Afirmação, síntese e item de lista: H1 + H2 (apague o P).
-- Lista/método: H1 + P (lista) + H2 (fecho).
-- Cenário ❌/✅: H1 = rótulo (CLIENTE), P = "❌ fala errada" e "✅ fala certa", H2 = lição.
-- Pergunta única: só o H1.
+A página 2 serve para **todos** os slides internos. Repita-a quantas vezes precisar.
+Ela tem **uma** caixa em Raleway: use-a como H2 (68 px) ou como corpo (42 px, entrelinha 1,6),
+conforme o slide. Exemplos:
+- Afirmação, síntese e item de lista: H1 + H2.
+- Frase-modelo, exercício ou lista: H1 + corpo (a caixa em Raleway formatada com 42 px).
+- Cenário ❌/✅: H1 = rótulo (CLIENTE), corpo = "❌ fala errada\n✅ fala certa\n\nLição".
+- Pergunta única: só o H1 (apague a caixa em Raleway).
 
 Exemplo de 10 slides: `page_numbers: [1,2,2,2,2,2,2,2,2,3]`.
 
+**Atenção com a Bebas:**
+- Ela é só maiúscula e bem condensada: cabem ~19 caracteres por linha em 880 px com 110 px.
+- O algarismo "1" dela parece um "I". Em listas numeradas, prefira "01.", "02."… ou "Nº 1",
+  se o "1." ficar ambíguo na miniatura.
+
 ### Limitações técnicas do Canva (importante)
 - **A API não troca a fonte de uma caixa.** A fonte vem da caixa copiada da matriz. Por
-  isso, use sempre as caixas da matriz v2. Nunca use as matrizes antigas: a fonte
-  caligráfica delas foi descontinuada.
+  isso, use sempre as caixas da matriz v3. Nunca use caixas de outras matrizes, nem crie caixas
+  com `add_text`: elas trazem fontes fora do padrão (Didot, caligráfica, sans padrão do Canva).
 - As caixas do logo ("voe" / "Empreendedor") forçam CAIXA ALTA. Não as reaproveite para texto.
-- `add_text` cria uma caixa com a sans padrão do Canva (fontRef `YACgEZ1cb1Q`), preta e de 16 px.
-  Se precisar de uma caixa extra de H2 ou P, crie assim e ajuste com `format_text`
-  (`color: #ffffff`, tamanho da escala, `text_align: center`).
+- `add_text` cria uma caixa com a sans padrão do Canva, que **não** é Raleway. Não use.
 - A cor de fundo da página muda com `recolor_element` usando o `locator_id` da página.
 
 ### Matrizes antigas (só referência de estrutura e copy, não de fonte)
 `DAHVQ6x7h9o` ("Como dizer NÃO", layouts de cenário ❌/✅ e lista), `DAHV8rnoBhU`
 ("Se eu apagar sua logo", perguntas), `DAHInHG5i2M` (capas de evento: vagas, data, link na bio).
 
-Se a matriz v2 não existir mais, procure com `search-designs` por "Matriz tipográfica".
+Se a matriz v3 não existir mais, procure com `search-designs` por "Matriz tipográfica v3".
 
 ## Fluxo
 
@@ -94,7 +98,7 @@ Slide N (Fechamento) — ...
 LEGENDA: ...
 ```
 
-Com o roteiro, mapeie cada slide a uma página da matriz v2 (ex.: `[1,2,2,2,2,2,3]`).
+Com o roteiro, mapeie cada slide a uma página da matriz v3 (ex.: `[1,2,2,2,2,2,3]`).
 Se o usuário pediu para ir direto, não espere aprovação — siga; senão, peça um "ok" rápido.
 
 ### 3. Montar no Canva
@@ -105,7 +109,7 @@ Se o usuário pediu para ir direto, não espere aprovação — siga; senão, pe
    capa + afirmação + 4 cenários + síntese + fechamento (todos os internos usam a pág. 2):
    ```json
    {"type":"create_new_design","title":"VOE — <tema>",
-    "operations":[{"type":"insert_pages","source":{"type":"design","design_id":"DAHWapQqtrQ","page_numbers":[1,2,2,2,2,2,2,3]}}]}
+    "operations":[{"type":"insert_pages","source":{"type":"design","design_id":"DAHWakYlTq4","page_numbers":[1,2,2,2,2,2,2,3]}}]}
    ```
    Para misturar matrizes, faça várias chamadas em sequência, uma `insert_pages` por chamada:
    o `merge-designs` aceita **uma única operação por requisição** (inserir, mover ou apagar).
@@ -144,14 +148,9 @@ Se o usuário pediu para ir direto, não espere aprovação — siga; senão, pe
         olhando para o lado do título → puxa a leitura (ideal).
      3. **Rosto nítido, olhos abertos, boca em posição natural.** Descarte fotos com olhos fechados.
      4. **Resolução alta**, porque a foto cobre 1080 px.
-   - A capa da matriz tem **duas** camadas de foto com o mesmo `mediaId`: o fundo (a primeira
-     `rect`, 1722×1147) e uma camada da direita, que fica **acima do título**. Com foto comum:
-     1. `update_fill` na camada de fundo com a foto nova;
-     2. **apague a camada da direita** (`delete_element`), senão ela cobre o título;
-     3. desloque o fundo com `position_element` (`left` entre -470 e -276) até o rosto ficar na
-        metade direita, sem encostar no título.
-     Confira na miniatura antes de salvar. Mantenha a camada da direita só se a foto nova for um
-     recorte sem fundo, feito com `remove-background`.
+   - A capa da matriz v3 tem **uma** camada de foto (a primeira `rect`, 1722×1147). Troque com
+     `update_fill` e desloque com `position_element` (`left` entre -470 e -276) até o rosto
+     ficar na metade direita, sem encostar no título. Confira na miniatura antes de salvar.
    - Nunca use banco de imagens genérico: a capa sempre mostra os mentores e eventos reais do VOE.
 5. Gere miniaturas de todas as páginas (`read-design` com `transaction_id` + thumbnails)
    e **confira visualmente**: texto cortado, linha órfã, sobreposição com o logo, acento

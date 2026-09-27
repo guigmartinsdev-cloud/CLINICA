@@ -16,24 +16,23 @@ Base: **corpo = 42 px** (legível no celular em um slide de 1080 px).
 Arredonde sempre para esses valores; não invente tamanhos intermediários.
 O logo "voe / Empreendedor" fica fora da escala e não deve ser alterado.
 
-## Fonte e estilo por nível: 3 famílias, cada uma com um papel fixo
+## Fontes: só duas
 
 | Família | Papel | fontRef | Onde |
 |---|---|---|---|
-| **Bebas Neue** (condensada, CAIXA ALTA) | Impacto, para o scroll | `YAD1bzJCL-s,0` | Só no título da capa |
-| **Didot** (serifada de alto contraste) | Autoridade, elegância | `YAFdJnPX3ZE,0` | H1 de todos os slides internos e do fechamento |
-| **Sans** (limpa e legível) | Leitura | `YACgEZ1cb1Q,0` (padrão do Canva) · na capa, Raleway itálico `YAFdJhmxbVQ,1` | H2 e corpo |
+| **Bebas** (condensada, só maiúsculas) | Títulos, impacto | `YAD1bzJCL-s,0` | H1 de todos os slides (capa, internos, fechamento) |
+| **Raleway** | Texto, leitura | `YAFdJhmxbVQ,1` | H2 e corpo. Itálico só no subtítulo da capa |
 
-| Nível | Capa (pág. 1) | Slides internos (pág. 2) | Fechamento (pág. 3) |
+| Nível | Capa | Slides internos | Fechamento |
 |---|---|---|---|
-| H1 | Bebas | Didot | Didot |
-| H2 | Raleway itálico | Sans | — |
-| P | — | Sans | — |
+| H1 | Bebas, à esquerda | Bebas, centralizado | Bebas, centralizado |
+| H2 | Raleway itálico | Raleway regular | — |
+| P | — | Raleway regular 42 px | Assinatura "VOE EMPREENDEDOR" |
 
-Não misture outras fontes. A serifada caligráfica dos carrosséis antigos (`YAEkCPhb2OU`)
-foi **descontinuada**: tem baixa legibilidade no celular e tira autoridade da marca.
+Nenhuma outra fonte (Didot, caligráfica, sans padrão do Canva) entra no carrossel.
+A caixa do logo antigo força caixa alta e não deve ser reaproveitada.
 
-Cor: tudo branco `#ffffff`. A hierarquia vem de **tamanho, fonte e peso**, não de cor.
+Cor: tudo branco `#ffffff`. A hierarquia vem de **tamanho e família** (Bebas × Raleway).
 
 ## Regras
 
@@ -46,7 +45,7 @@ Cor: tudo branco `#ffffff`. A hierarquia vem de **tamanho, fonte e peso**, não 
    Se não couber, corte a copy — não reduza a fonte fora da escala.
    Exceção: um H1 longo (título da capa com mais de 7 palavras, ou H1 interno que passaria
    de 3 linhas) pode descer **um** degrau intermediário: 88 px (110 ÷ √φ). É o único
-   ajuste permitido. A Didot é larga: com 110 px cabem ~16 caracteres por linha em 880 px.
+   ajuste permitido. A Bebas é condensada: com 110 px cabem ~19 caracteres por linha em 880 px. A Raleway a 68 px cabe ~24.
 
 ## Espaçamento áureo
 
