@@ -144,9 +144,14 @@ Se o usuário pediu para ir direto, não espere aprovação — siga; senão, pe
         olhando para o lado do título → puxa a leitura (ideal).
      3. **Rosto nítido, olhos abertos, boca em posição natural.** Descarte fotos com olhos fechados.
      4. **Resolução alta**, porque a foto cobre 1080 px.
-   - Troque as **duas** camadas de foto da capa (a de fundo e o recorte da direita, com o mesmo
-     `mediaId`) com `update_fill` e confira o enquadramento na miniatura. Ajuste com
-     `crop_media` se o rosto sair do quadro.
+   - A capa da matriz tem **duas** camadas de foto com o mesmo `mediaId`: o fundo (a primeira
+     `rect`, 1722×1147) e uma camada da direita, que fica **acima do título**. Com foto comum:
+     1. `update_fill` na camada de fundo com a foto nova;
+     2. **apague a camada da direita** (`delete_element`), senão ela cobre o título;
+     3. desloque o fundo com `position_element` (`left` entre -470 e -276) até o rosto ficar na
+        metade direita, sem encostar no título.
+     Confira na miniatura antes de salvar. Mantenha a camada da direita só se a foto nova for um
+     recorte sem fundo, feito com `remove-background`.
    - Nunca use banco de imagens genérico: a capa sempre mostra os mentores e eventos reais do VOE.
 5. Gere miniaturas de todas as páginas (`read-design` com `transaction_id` + thumbnails)
    e **confira visualmente**: texto cortado, linha órfã, sobreposição com o logo, acento
