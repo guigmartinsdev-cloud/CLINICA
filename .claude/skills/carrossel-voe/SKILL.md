@@ -117,8 +117,11 @@ Se o usuário pediu para ir direto, não espere aprovação — siga; senão, pe
 5. Gere miniaturas de todas as páginas (`read-design` com `transaction_id` + thumbnails)
    e **confira visualmente**: texto cortado, linha órfã, sobreposição com o logo, acento
    quebrado. Corrija antes de mostrar.
-6. Mostre as miniaturas ao usuário e peça aprovação. Só então `finalize: "commit"`.
-   Se ele pedir ajustes, edite na mesma transação.
+6. **Salve (`finalize: "commit"`) assim que a revisão visual estiver ok — sem esperar
+   aprovação.** O usuário pediu o carrossel pronto; enquanto a transação está aberta,
+   o link mostra os textos antigos da matriz e parece que nada foi feito. Ajustes
+   pedidos depois são feitos em uma nova transação (`read-design` com `open_transaction`).
+   Só peça aprovação antes de salvar se o usuário disser explicitamente que quer revisar primeiro.
 
 ### 4. Entregar
 
