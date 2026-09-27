@@ -18,6 +18,10 @@ normal, esses valores vêm prontos das páginas da matriz.
 | Destaque em capas de evento | azul vivo (ex.: "5 VAGAS", "NO VOE IMERSÃO" com fundo azul) |
 
 ## Tipografia (fontRef do Canva)
+
+> Os tamanhos abaixo são os dos carrosséis antigos. **Para carrosséis novos, os tamanhos,
+> entrelinhas e espaçamentos seguem `hierarquia-tipografica.md` (escala áurea 110 / 68 / 42 / 26 px).**
+> Desta tabela, use só a escolha de fonte.
 | Papel | fontRef | Aparência | Tamanho típico |
 |---|---|---|---|
 | Título da capa | `YAD1bzJCL-s,0` | sans condensada, pesada, CAIXA ALTA (estilo Bebas) | 85–105 px, entrelinha 0,84 |

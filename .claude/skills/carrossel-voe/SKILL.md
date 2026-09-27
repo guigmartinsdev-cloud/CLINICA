@@ -15,8 +15,14 @@ texto e foto.** Assim fontes, grade de fundo, cores, logo e espaçamentos saem e
 
 - Especificações visuais detalhadas: `references/design-spec.md`
 - Método de copy, fórmulas e exemplos reais: `references/copy-playbook.md`
+- **Hierarquia tipográfica pela proporção áurea** (cabeçalho, subcabeçalho, corpo):
+  `references/hierarquia-tipografica.md`
 
-Leia os dois antes de escrever a primeira linha de copy.
+Leia os três antes de escrever a primeira linha de copy. A hierarquia manda no tamanho
+e no espaçamento de todo texto. A matriz fornece fontes, cores, grade e logo.
+
+Resumo da escala (φ = 1,618, base 42 px):
+**H1 cabeçalho 110 px** · **H2 subcabeçalho 68 px** · **P corpo 42 px** · S apoio 26 px.
 
 ## Carrosséis-matriz (Canva)
 
@@ -96,19 +102,18 @@ Se o usuário pediu para ir direto, não espere aprovação — siga; senão, pe
 2. `read-design` do novo design com `open_transaction: true` para obter os `locator_id`.
 3. `edit-design` página por página (`keep_open`) usando `replace_text` em cada caixa de texto.
    Regras:
-   - Não mude fonte, cor, tamanho nem posição — o texto herda o estilo da matriz.
+   - Antes de editar, classifique cada caixa de texto como H1, H2, P ou S (tabela
+     "Mapa por layout" em `references/hierarquia-tipografica.md`).
+   - Depois do `replace_text`, aplique o nível com `format_text` (`font_size` e
+     `line_height` da escala) e reposicione com `position_element` seguindo o
+     espaçamento áureo. Não mude fonte nem cor: elas vêm da matriz.
+   - Se o texto não couber no limite de linhas do nível, corte a copy. Não crie
+     tamanhos fora da escala.
    - Para destaque em **negrito** dentro de uma frase (como no fechamento), use
      `format_text` apenas se a caixa não preservar a mistura; na dúvida, mantenha simples.
-   - Se o texto novo for bem mais longo que o original, reduza a copy primeiro;
-     só depois ajuste `font_size` (nunca abaixo de ~48 px nos slides internos).
    - Não altere o logo "voe / Empreendedor" nem a grade de fundo.
-   - Na capa, o título tem no máximo ~2 linhas de 85–105 px; o subtítulo, até 3 linhas.
-     Título longo (mais de ~6 palavras): reduza a largura da caixa para ~600 px e suba
-     o bloco (título em y≈170, subtítulo em y≈480), senão o texto invade o rosto do
-     palestrante — a foto recortada fica em uma camada acima do texto.
-   - Ao trocar um texto grande de 2 linhas por um de 1 linha (layout de síntese,
-     página 7), reposicione para o bloco ficar centralizado: título em y≈330 e
-     complemento em y≈480. Para títulos de 2 linhas: y≈270 e y≈530.
+   - Capa: a foto recortada do palestrante fica em uma camada acima do texto. Limite a
+     caixa do título a ~600 px de largura para ele não invadir o rosto.
 4. **Foto da capa**: mantenha a foto da matriz, a não ser que o usuário mande outra ou
    peça variação. Para variar, reutilize fotos de palestra/evento de outros carrosséis VOE
    (ex.: mediaIds `MAHV8ofBjeE`, `MAHLi8cw2hw`) via `update_fill`, ou use a que o usuário enviar
@@ -136,6 +141,8 @@ Se o usuário pediu para ir direto, não espere aprovação — siga; senão, pe
 - [ ] Capa com foto real + título condensado CAIXA ALTA + subtítulo itálico
 - [ ] Miolo em fundo marinho `#010721` com grade; fechamento em azul royal `#00135e` com logo VOE
 - [ ] Cada slide com **uma ideia só**, leitura em menos de 5 segundos
+- [ ] Todo texto em um nível da escala áurea (110 / 68 / 42 / 26 px), um H1 por slide,
+      no máximo 3 níveis, espaços de 42 e 68 px entre blocos
 - [ ] Contraste "não é X, é Y" em algum ponto
 - [ ] Último slide com frase-assinatura de empreendedor para empreendedor
 - [ ] Sem textos em inglês, placeholders ("123 Anywhere St.") ou emojis soltos no design
