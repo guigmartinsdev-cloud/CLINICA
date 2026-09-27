@@ -9,12 +9,13 @@ Base: **corpo = 42 px** (legível no celular em um slide de 1080 px).
 | Nível | Nome | Cálculo | Tamanho | Entrelinha | Uso |
 |---|---|---|---|---|---|
 | H1 | **Cabeçalho** | 42 × φ² | **110 px** | 1,0 | A ideia do slide. Uma por slide. |
-| H2 | **Subcabeçalho** | 42 × φ | **68 px** | 1,2 | Complemento, virada, pergunta, lição. |
+| H2 | **Subcabeçalho** | 42 × φ | **68 px** | 1,3 (1,2 no itálico da capa) | Complemento, virada, pergunta, lição. |
 | P | **Corpo** | base | **42 px** | 1,6 (≈ φ) | Explicação, lista, exemplo, fala entre aspas. |
 | S | **Apoio** | 42 ÷ φ | **26 px** | 1,3 | Rótulos pequenos, numeração "01/05", crédito. Raro. |
 
 Arredonde sempre para esses valores; não invente tamanhos intermediários.
-O logo "voe / Empreendedor" fica fora da escala e não deve ser alterado.
+O logo "voe / Empreendedor" fica fora da escala, no rodapé de todo slide interno e do
+fechamento, e não deve ser alterado nem apagado.
 
 ## Fontes: só duas
 
@@ -27,12 +28,25 @@ O logo "voe / Empreendedor" fica fora da escala e não deve ser alterado.
 |---|---|---|---|
 | H1 | Bebas, à esquerda | Bebas, centralizado | Bebas, centralizado |
 | H2 | Raleway itálico | Raleway regular | — |
-| P | — | Raleway regular 42 px | Assinatura "VOE EMPREENDEDOR" |
+| P | — | Raleway regular 42 px (raro) | — |
+| Logo | — | "voe / Empreendedor" no rodapé | "voe / Empreendedor" no rodapé |
 
 Nenhuma outra fonte (Didot, caligráfica, sans padrão do Canva) entra no carrossel.
-A caixa do logo antigo força caixa alta e não deve ser reaproveitada.
+A caixa do logo força caixa alta e não deve ser reaproveitada para outro texto.
 
 Cor: tudo branco `#ffffff`. A hierarquia vem de **tamanho e família** (Bebas × Raleway).
+
+## Maiúsculas × minúsculas
+
+| Onde | Caixa | Tamanho do texto |
+|---|---|---|
+| Bebas (H1) | Maiúsculas (a fonte já força) | Rótulo curto: até ~4 palavras, até 2 linhas |
+| Raleway (H2/P) | Caixa de frase: maiúscula só no início, após ponto, em nomes próprios e siglas | Frase completa, até 3 linhas de ~22 caracteres |
+
+- Frase longa em maiúsculas é lida devagar. Se o H1 tem verbo e passa de ~5 palavras,
+  corte para um rótulo e leve a frase para a Raleway.
+- Quebre linhas à mão (`\n`) para não deixar palavra sozinha na última linha.
+- Números em Bebas: o "1" parece "I". Evite numerar itens no H1.
 
 ## Regras
 
@@ -41,7 +55,7 @@ Cor: tudo branco `#ffffff`. A hierarquia vem de **tamanho e família** (Bebas ×
 2. **Um H1 por slide.** Se duas frases disputam o topo, uma delas é H2.
 3. **Não pule níveis de forma invertida:** nunca coloque um texto maior abaixo de um
    menor com a mesma função (ex.: o complemento nunca é maior que o cabeçalho).
-4. **Linhas por nível:** H1 até 3 linhas · H2 até 3 linhas · P até 6 linhas.
+4. **Linhas por nível:** H1 até 2 linhas (3 só na capa) · H2 até 3 linhas · P até 6 linhas.
    Se não couber, corte a copy — não reduza a fonte fora da escala.
    Exceção: um H1 longo (título da capa com mais de 7 palavras, ou H1 interno que passaria
    de 3 linhas) pode descer **um** degrau intermediário: 88 px (110 ÷ √φ). É o único
@@ -60,15 +74,19 @@ Os espaços também seguem a escala, usando o corpo (42 px) como unidade:
 
 ## Posição vertical
 
-- Divida a altura pelo ponto áureo: **1080 × 0,382 ≈ 412 px**.
-- Bloco curto (H1 + H2 com até 4 linhas no total): o **topo do H1 fica em y ≈ 412 − altura do H1**,
-  de modo que o cabeçalho "pouse" na linha áurea e o complemento fique logo abaixo dela.
-- Bloco longo: centralize o conjunto em y = 540, mas o topo nunca acima de y = 255
-  (1080 × 0,236).
+- Slides internos e fechamento: o logo ocupa y ≈ 881–972. Centralize o bloco
+  (H1 + 42 px + H2) na área 0–860. Tabela pronta:
+
+  | H1 × H2 (linhas) | topo H1 | topo H2 |
+  |---|---|---|
+  | 1 × 2 | 268 | 442 |
+  | 1 × 3 | 225 | 399 |
+  | 2 × 2 | 214 | 498 |
+  | 2 × 3 | 170 | 454 |
 - Capa: texto alinhado à esquerda (x = 60), bloco começando na linha áurea inferior
   (y ≈ 668, 1080 × 0,618) quando a foto deixa o rosto no alto; se o rosto estiver
   na metade de baixo, suba o bloco para começar em y ≈ 170.
-- Fechamento: frase centralizada com o topo em y ≈ 255; o logo fica fixo (não mova).
+- Fechamento: mesma tabela; o logo fica fixo (não mova).
 
 ## Mapa por layout da matriz
 
@@ -88,7 +106,7 @@ Depois de `replace_text`, aplique o nível com `format_text` em cada caixa, por 
 
 ```json
 {"type":"format_text","locator_id":"<id>","formatting":{"font_size":110,"line_height":1.0}}
-{"type":"format_text","locator_id":"<id>","formatting":{"font_size":68,"line_height":1.2}}
+{"type":"format_text","locator_id":"<id>","formatting":{"font_size":68,"line_height":1.3}}
 {"type":"format_text","locator_id":"<id>","formatting":{"font_size":42,"line_height":1.6}}
 ```
 

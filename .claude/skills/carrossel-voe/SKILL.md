@@ -26,36 +26,56 @@ Resumo da escala (φ = 1,618, base 42 px):
 
 ## Carrosséis-matriz (Canva)
 
-### Matriz principal — use sempre: `DAHWakYlTq4` ("VOE — Matriz tipográfica v3 (Bebas + Raleway)")
+### Matriz principal — use sempre: `DAHWamUxqas` ("VOE — Matriz v4 (Bebas + Raleway + logo)")
 
-**Só duas fontes: Bebas (títulos) e Raleway (texto).** Nenhuma outra fonte entra no carrossel.
+**Só duas fontes: Bebas (títulos) e Raleway (texto). O logo "voe / Empreendedor" aparece em
+todos os slides internos e no fechamento — nunca apague.**
 
 | Pág. | Layout | Caixas de texto |
 |---|---|---|
 | 1 | **Capa**: foto + degradê azul (a foto é **uma** camada só) | Título em **Bebas** (H1) · subtítulo em **Raleway itálico** (H2) |
-| 2 | **Interno**: fundo marinho `#010721` + grade | Cabeçalho em **Bebas** (H1 110 px, centralizado) · texto em **Raleway** (H2 68 px **ou** corpo 42 px) |
-| 3 | **Fechamento**: fundo royal `#00135e` + grade | Frase em **Bebas** (H1 110 px) · assinatura "VOE EMPREENDEDOR" em Raleway 42 px |
+| 2 | **Interno**: fundo marinho `#010721` + grade + logo no rodapé | Cabeçalho em **Bebas** (H1 110 px, centralizado) · frase em **Raleway** (H2 68 px, entrelinha 1,3) |
+| 3 | **Fechamento**: fundo royal `#00135e` + grade + logo no rodapé | Chamada em **Bebas** (H1 110 px) · frase ou exercício em **Raleway** (H2 68 px) |
 
 A página 2 serve para **todos** os slides internos. Repita-a quantas vezes precisar.
-Ela tem **uma** caixa em Raleway: use-a como H2 (68 px) ou como corpo (42 px, entrelinha 1,6),
-conforme o slide. Exemplos:
-- Afirmação, síntese e item de lista: H1 + H2.
-- Frase-modelo, exercício ou lista: H1 + corpo (a caixa em Raleway formatada com 42 px).
-- Cenário ❌/✅: H1 = rótulo (CLIENTE), corpo = "❌ fala errada\n✅ fala certa\n\nLição".
-- Pergunta única: só o H1 (apague a caixa em Raleway).
-
 Exemplo de 10 slides: `page_numbers: [1,2,2,2,2,2,2,2,2,3]`.
 
-**Atenção com a Bebas:**
-- Ela é só maiúscula e bem condensada: cabem ~19 caracteres por linha em 880 px com 110 px.
-- O algarismo "1" dela parece um "I". Em listas numeradas, prefira "01.", "02."… ou "Nº 1",
-  se o "1." ficar ambíguo na miniatura.
+### Maiúsculas e minúsculas (legibilidade)
+
+A Bebas só tem maiúsculas. Texto longo todo em caixa alta cansa e se lê devagar. Por isso:
+
+- **Bebas = rótulo curto**: até ~4 palavras e no máximo 2 linhas ("Faturamento",
+  "Não administre / no escuro", "Escolher não / é recusar"). Escreva em caixa normal no
+  `replace_text`; a fonte já mostra em maiúsculas.
+- **Raleway = frase completa**, em caixa de frase: maiúscula só no início da frase, depois de
+  ponto e em nomes próprios e siglas (VOE, ICP). Nunca escreva uma frase inteira em maiúsculas.
+- Toda ideia com verbo e mais de ~5 palavras vai para a Raleway, não para a Bebas.
+- Quebre as linhas da Raleway à mão com `\n` (até ~22 caracteres por linha a 68 px) para
+  não sobrar palavra sozinha na última linha. Faça o mesmo na Bebas com 2 linhas.
+- Não comece a Raleway com "Responde:" ou rótulos parecidos; escreva direto a pergunta.
+- Evite números na Bebas em listas: o "1" dela parece "I" ("01" vira "OI"). A ordem fica
+  implícita, ou vai na Raleway.
+
+### Posição dos blocos (escala áurea, acima do logo)
+
+O logo ocupa y ≈ 881–972. O bloco H1 + 42 px + H2 fica centralizado na área 0–860.
+Alturas: Bebas 1 linha ≈ 132, 2 linhas ≈ 242; Raleway 68/1,3 com 2 linhas ≈ 169, 3 linhas ≈ 257.
+
+| H1 × H2 | topo H1 | topo H2 |
+|---|---|---|
+| 1 linha × 2 linhas | 268 | 442 |
+| 1 × 3 | 225 | 399 |
+| 2 × 2 | 214 | 498 |
+| 2 × 3 | 170 | 454 |
+
+Capa: título a partir de y 230 (x 60, largura 600), subtítulo 42 px abaixo do título.
 
 ### Limitações técnicas do Canva (importante)
 - **A API não troca a fonte de uma caixa.** A fonte vem da caixa copiada da matriz. Por
-  isso, use sempre as caixas da matriz v3. Nunca use caixas de outras matrizes, nem crie caixas
+  isso, use sempre as caixas da matriz v4. Nunca use caixas de outras matrizes, nem crie caixas
   com `add_text`: elas trazem fontes fora do padrão (Didot, caligráfica, sans padrão do Canva).
-- As caixas do logo ("voe" / "Empreendedor") forçam CAIXA ALTA. Não as reaproveite para texto.
+- As caixas do logo ("voe" / "Empreendedor") forçam CAIXA ALTA. Não as reaproveite para texto
+  e **não as apague nem mova**: o logo fica em todo slide interno e no fechamento.
 - `add_text` cria uma caixa com a sans padrão do Canva, que **não** é Raleway. Não use.
 - A cor de fundo da página muda com `recolor_element` usando o `locator_id` da página.
 
@@ -63,7 +83,9 @@ Exemplo de 10 slides: `page_numbers: [1,2,2,2,2,2,2,2,2,3]`.
 `DAHVQ6x7h9o` ("Como dizer NÃO", layouts de cenário ❌/✅ e lista), `DAHV8rnoBhU`
 ("Se eu apagar sua logo", perguntas), `DAHInHG5i2M` (capas de evento: vagas, data, link na bio).
 
-Se a matriz v3 não existir mais, procure com `search-designs` por "Matriz tipográfica v3".
+Se a matriz v4 não existir mais, procure com `search-designs` por "Matriz v4".
+
+`DAHWakYlTq4` (v3) está descontinuada: não tem o logo.
 
 ## Fluxo
 
@@ -98,7 +120,7 @@ Slide N (Fechamento) — ...
 LEGENDA: ...
 ```
 
-Com o roteiro, mapeie cada slide a uma página da matriz v3 (ex.: `[1,2,2,2,2,2,3]`).
+Com o roteiro, mapeie cada slide a uma página da matriz v4 (ex.: `[1,2,2,2,2,2,3]`).
 Se o usuário pediu para ir direto, não espere aprovação — siga; senão, peça um "ok" rápido.
 
 ### 3. Montar no Canva
@@ -109,7 +131,7 @@ Se o usuário pediu para ir direto, não espere aprovação — siga; senão, pe
    capa + afirmação + 4 cenários + síntese + fechamento (todos os internos usam a pág. 2):
    ```json
    {"type":"create_new_design","title":"VOE — <tema>",
-    "operations":[{"type":"insert_pages","source":{"type":"design","design_id":"DAHWakYlTq4","page_numbers":[1,2,2,2,2,2,2,3]}}]}
+    "operations":[{"type":"insert_pages","source":{"type":"design","design_id":"DAHWamUxqas","page_numbers":[1,2,2,2,2,2,2,3]}}]}
    ```
    Para misturar matrizes, faça várias chamadas em sequência, uma `insert_pages` por chamada:
    o `merge-designs` aceita **uma única operação por requisição** (inserir, mover ou apagar).
@@ -128,7 +150,7 @@ Se o usuário pediu para ir direto, não espere aprovação — siga; senão, pe
      tamanhos fora da escala.
    - Para destaque em **negrito** dentro de uma frase (como no fechamento), use
      `format_text` apenas se a caixa não preservar a mistura; na dúvida, mantenha simples.
-   - Não altere o logo "voe / Empreendedor" nem a grade de fundo.
+   - Não altere, mova ou apague o logo "voe / Empreendedor" nem a grade de fundo.
    - Capa: a foto recortada do palestrante fica em uma camada acima do texto. Limite a
      caixa do título a ~600 px de largura para ele não invadir o rosto.
 4. **Foto da capa: nunca repita a mesma foto em carrosséis seguidos.**
@@ -148,9 +170,10 @@ Se o usuário pediu para ir direto, não espere aprovação — siga; senão, pe
         olhando para o lado do título → puxa a leitura (ideal).
      3. **Rosto nítido, olhos abertos, boca em posição natural.** Descarte fotos com olhos fechados.
      4. **Resolução alta**, porque a foto cobre 1080 px.
-   - A capa da matriz v3 tem **uma** camada de foto (a primeira `rect`, 1722×1147). Troque com
-     `update_fill` e desloque com `position_element` (`left` entre -470 e -276) até o rosto
-     ficar na metade direita, sem encostar no título. Confira na miniatura antes de salvar.
+   - A capa da matriz v4 tem **uma** camada de foto (a primeira `rect`, 1722×1147). Troque com
+     `update_fill`. Se o rosto ficar cortado ou atrás do título, ajuste o enquadramento com
+     `crop_media` na mesma rect (ex.: `top` -120, `left` 262 empurra a pessoa para a direita e
+     mostra a cabeça). Confira na miniatura antes de salvar.
    - Nunca use banco de imagens genérico: a capa sempre mostra os mentores e eventos reais do VOE.
 5. Gere miniaturas de todas as páginas (`read-design` com `transaction_id` + thumbnails)
    e **confira visualmente**: texto cortado, linha órfã, sobreposição com o logo, acento
@@ -171,7 +194,9 @@ Se o usuário pediu para ir direto, não espere aprovação — siga; senão, pe
 ## Checklist final
 
 - [ ] 1080×1080, 6 a 9 slides
-- [ ] Capa com foto real + título condensado CAIXA ALTA + subtítulo itálico
+- [ ] Capa com foto real + título curto em Bebas + subtítulo em Raleway itálico
+- [ ] Logo VOE presente em todos os slides internos e no fechamento
+- [ ] Bebas só em rótulos curtos (até ~4 palavras); frases em Raleway, caixa de frase, sem palavra órfã
 - [ ] Miolo em fundo marinho `#010721` com grade; fechamento em azul royal `#00135e` com logo VOE
 - [ ] Cada slide com **uma ideia só**, leitura em menos de 5 segundos
 - [ ] Todo texto em um nível da escala áurea (110 / 68 / 42 / 26 px), um H1 por slide,

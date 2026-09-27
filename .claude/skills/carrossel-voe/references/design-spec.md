@@ -22,7 +22,7 @@ normal, esses valores vêm prontos das páginas da matriz.
 > Os tamanhos abaixo são os dos carrosséis antigos. **Para carrosséis novos, os tamanhos,
 > entrelinhas e espaçamentos seguem `hierarquia-tipografica.md` (escala áurea 110 / 68 / 42 / 26 px).**
 > Esta tabela descreve os carrosséis ANTIGOS. As fontes atuais estão em `hierarquia-tipografica.md`
-> (só Bebas + Raleway), e a matriz atual é `DAHWakYlTq4`.
+> (só Bebas + Raleway), e a matriz atual é `DAHWamUxqas` (v4, com logo).
 
 | Papel | fontRef | Aparência | Tamanho típico |
 |---|---|---|---|

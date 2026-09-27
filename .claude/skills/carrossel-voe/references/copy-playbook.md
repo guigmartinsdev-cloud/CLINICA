@@ -31,8 +31,8 @@ problema com dicas rápidas (→ bullets) → slide de urgência ("restam apenas
 CTA com data + "link na bio".
 
 Em carrossel de **lista** ("Os N ... que ..."): capa → quebra de crença → 1 item por slide
-(nome do item grande + "Responde: <pergunta que o item responde>") → síntese → CTA.
-Usa a página 7 da matriz para cada item.
+(nome do item grande + a pergunta que ele responde) → síntese → CTA.
+Usa a página 2 da matriz v4 para cada item: nome do item no H1 (Bebas, sem número) e a pergunta que ele responde na Raleway.
 
 ## Fórmulas de capa (título / subtítulo)
 - **Como + resultado + sem + medo:** "COMO DIZER NÃO SEM PARECER GROSSEIRO" / *Comunicação assertiva é proteger prioridades sem destruir relações.*
