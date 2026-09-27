@@ -127,11 +127,27 @@ Se o usuário pediu para ir direto, não espere aprovação — siga; senão, pe
    - Não altere o logo "voe / Empreendedor" nem a grade de fundo.
    - Capa: a foto recortada do palestrante fica em uma camada acima do texto. Limite a
      caixa do título a ~600 px de largura para ele não invadir o rosto.
-4. **Foto da capa**: mantenha a foto da matriz, a não ser que o usuário mande outra ou
-   peça variação. Para variar, reutilize fotos de palestra/evento de outros carrosséis VOE
-   (ex.: mediaIds `MAHV8ofBjeE`, `MAHLi8cw2hw`) via `update_fill`, ou use a que o usuário enviar
-   (`upload-asset-from-url`). Nunca use banco de imagens genérico: a capa sempre mostra
-   os mentores/eventos reais do VOE.
+4. **Foto da capa: nunca repita a mesma foto em carrosséis seguidos.**
+   - Banco de fotos: pasta do Canva **"VOE — Fotos capa"** (procure com `search-folders`
+     e liste com `list-folder-items`, `item_types: ["image"]`). Se o usuário mandar fotos no
+     chat, peça que ele suba no Canva (**Uploads**) e mova para essa pasta. O upload direto
+     pelo `create-upload-url` depende do domínio `www.canva.com` estar liberado na rede do ambiente.
+   - Antes de escolher, leia as capas dos 5 carrosséis VOE mais recentes (`search-designs`
+     "VOE" por `modified_descending`, depois `read-design` na página 1) e **descarte os
+     `mediaId` já usados**.
+   - Critérios, em ordem:
+     1. **Composição:** o palestrante fica na metade direita e o lado esquerdo fica livre para o título.
+        Uma foto com a pessoa à esquerda serve se você espelhar a imagem (`flip_media` horizontal),
+        desde que não haja texto legível no fundo.
+     2. **Olhar e gesto combinando com o tema:** contando nos dedos → listas e números;
+        falando para a plateia → liderança e opinião; postura firme, de pé, mão no bolso → autoridade;
+        olhando para o lado do título → puxa a leitura (ideal).
+     3. **Rosto nítido, olhos abertos, boca em posição natural.** Descarte fotos com olhos fechados.
+     4. **Resolução alta**, porque a foto cobre 1080 px.
+   - Troque as **duas** camadas de foto da capa (a de fundo e o recorte da direita, com o mesmo
+     `mediaId`) com `update_fill` e confira o enquadramento na miniatura. Ajuste com
+     `crop_media` se o rosto sair do quadro.
+   - Nunca use banco de imagens genérico: a capa sempre mostra os mentores e eventos reais do VOE.
 5. Gere miniaturas de todas as páginas (`read-design` com `transaction_id` + thumbnails)
    e **confira visualmente**: texto cortado, linha órfã, sobreposição com o logo, acento
    quebrado. Corrija antes de mostrar.
