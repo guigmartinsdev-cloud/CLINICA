@@ -16,13 +16,22 @@ Base: **corpo = 42 px** (legível no celular em um slide de 1080 px).
 Arredonde sempre para esses valores; não invente tamanhos intermediários.
 O logo "voe / Empreendedor" fica fora da escala e não deve ser alterado.
 
-## Fonte e estilo por nível
+## Fonte e estilo por nível: 3 famílias, cada uma com um papel fixo
 
-| Nível | Capa (pág. 1) | Slides internos | Fechamento |
+| Família | Papel | fontRef | Onde |
 |---|---|---|---|
-| H1 | `YAD1bzJCL-s,0` condensada, CAIXA ALTA | `YAEkCPhb2OU,0` serifada | `YAFdJnPX3ZE,0` Didot, trechos-chave em negrito |
-| H2 | `YAFdJhmxbVQ,1` itálico | `YAFdJnPX3ZE,0` Didot (lição: negrito) | `YAEkCPhb2OU,0` |
-| P | — (capa não tem corpo) | `YAEkCPhb2OU,0` | `YAEkCPhb2OU,0` |
+| **Bebas Neue** (condensada, CAIXA ALTA) | Impacto, para o scroll | `YAD1bzJCL-s,0` | Só no título da capa |
+| **Didot** (serifada de alto contraste) | Autoridade, elegância | `YAFdJnPX3ZE,0` | H1 de todos os slides internos e do fechamento |
+| **Sans** (limpa e legível) | Leitura | `YACgEZ1cb1Q,0` (padrão do Canva) · na capa, Raleway itálico `YAFdJhmxbVQ,1` | H2 e corpo |
+
+| Nível | Capa (pág. 1) | Slides internos (pág. 2) | Fechamento (pág. 3) |
+|---|---|---|---|
+| H1 | Bebas | Didot | Didot |
+| H2 | Raleway itálico | Sans | — |
+| P | — | Sans | — |
+
+Não misture outras fontes. A serifada caligráfica dos carrosséis antigos (`YAEkCPhb2OU`)
+foi **descontinuada**: tem baixa legibilidade no celular e tira autoridade da marca.
 
 Cor: tudo branco `#ffffff`. A hierarquia vem de **tamanho, fonte e peso**, não de cor.
 
@@ -35,8 +44,9 @@ Cor: tudo branco `#ffffff`. A hierarquia vem de **tamanho, fonte e peso**, não 
    menor com a mesma função (ex.: o complemento nunca é maior que o cabeçalho).
 4. **Linhas por nível:** H1 até 3 linhas · H2 até 3 linhas · P até 6 linhas.
    Se não couber, corte a copy — não reduza a fonte fora da escala.
-   Exceção: título da capa com mais de 7 palavras pode descer um degrau (H1 → 88 px,
-   ou seja 110 ÷ φ^0,5), e é o único ajuste permitido.
+   Exceção: um H1 longo (título da capa com mais de 7 palavras, ou H1 interno que passaria
+   de 3 linhas) pode descer **um** degrau intermediário: 88 px (110 ÷ √φ). É o único
+   ajuste permitido. A Didot é larga: com 110 px cabem ~16 caracteres por linha em 880 px.
 
 ## Espaçamento áureo
 

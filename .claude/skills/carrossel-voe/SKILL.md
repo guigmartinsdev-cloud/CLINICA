@@ -26,28 +26,40 @@ Resumo da escala (φ = 1,618, base 42 px):
 
 ## Carrosséis-matriz (Canva)
 
-| ID | Título interno | Uso |
+### Matriz principal — use sempre: `DAHWapQqtrQ` ("VOE — Matriz tipográfica v2")
+
+Já vem com as **3 famílias tipográficas** e a escala áurea aplicadas:
+
+| Pág. | Layout | Caixas de texto (fonte → nível) |
 |---|---|---|
-| `DAHVQ6x7h9o` | "Como dizer NÃO sem parecer grosseiro" (8 págs) | **Matriz principal** — tem todos os layouts |
-| `DAHV8rnoBhU` | "Se eu apagar sua logo" (7 págs) | Matriz de perguntas (1 pergunta por slide) + capa com título dividido |
-| `DAHInHG5i2M` | "Liderança / Descanso não é luxo / VOE Imersão" | Capas com foto, versão evento/venda (vagas, data, link na bio) |
+| 1 | **Capa** — foto do palestrante + degradê azul | Título em **Bebas** (H1 capa) · subtítulo em **Raleway itálico** (H2) |
+| 2 | **Interno** — fundo marinho `#010721` + grade | Cabeçalho em **Didot** (H1 110 px) · subcabeçalho em **sans** (H2 68 px) · corpo em **sans** (P 42 px) |
+| 3 | **Fechamento** — fundo royal `#00135e` + grade + logo VOE | Frase em **Didot** (H1 110 px) |
 
-Layouts da matriz principal `DAHVQ6x7h9o` (número da página → função):
+A página 2 serve para **todos** os slides internos. Repita-a quantas vezes precisar e
+apague com `delete_element` as caixas que o slide não usa. Exemplos:
+- Afirmação, síntese e item de lista: H1 + H2 (apague o P).
+- Lista/método: H1 + P (lista) + H2 (fecho).
+- Cenário ❌/✅: H1 = rótulo (CLIENTE), P = "❌ fala errada" e "✅ fala certa", H2 = lição.
+- Pergunta única: só o H1.
 
-1. **Capa** — foto do palestrante + degradê azul, título condensado CAIXA ALTA + subtítulo itálico
-2. **Afirmação central** — um parágrafo serifado itálico centralizado
-3. **Lista / método** — título no topo, lista numerada, fecho em 2 linhas no rodapé
-4. **Cenário ❌/✅** — rótulo (ex.: CLIENTE), frase errada ❌, frase certa ✅, lição em negrito
-5. Cenário ❌/✅ (cópia)
-6. Cenário ❌/✅ (cópia)
-7. **Síntese "não é X, é Y"** — frase grande + complemento
-8. **Fechamento** — fundo azul royal, frase-assinatura + logo VOE
+Exemplo de 10 slides: `page_numbers: [1,2,2,2,2,2,2,2,2,3]`.
 
-Da matriz `DAHV8rnoBhU`: página 2 = **"X não é / Y"** (duas linhas, fontes misturadas);
-páginas 3–6 = **pergunta única** grande no centro; página 7 = **fechamento com exercício**.
+### Limitações técnicas do Canva (importante)
+- **A API não troca a fonte de uma caixa.** A fonte vem da caixa copiada da matriz. Por
+  isso, use sempre as caixas da matriz v2. Nunca use as matrizes antigas: a fonte
+  caligráfica delas foi descontinuada.
+- As caixas do logo ("voe" / "Empreendedor") forçam CAIXA ALTA. Não as reaproveite para texto.
+- `add_text` cria uma caixa com a sans padrão do Canva (fontRef `YACgEZ1cb1Q`), preta e de 16 px.
+  Se precisar de uma caixa extra de H2 ou P, crie assim e ajuste com `format_text`
+  (`color: #ffffff`, tamanho da escala, `text_align: center`).
+- A cor de fundo da página muda com `recolor_element` usando o `locator_id` da página.
 
-Se algum ID não existir mais (design apagado), procure com `search-designs` por
-"Blue and White Modern Grunge" e escolha o mais recente com capa de foto + fundo marinho quadriculado.
+### Matrizes antigas (só referência de estrutura e copy, não de fonte)
+`DAHVQ6x7h9o` ("Como dizer NÃO", layouts de cenário ❌/✅ e lista), `DAHV8rnoBhU`
+("Se eu apagar sua logo", perguntas), `DAHInHG5i2M` (capas de evento: vagas, data, link na bio).
+
+Se a matriz v2 não existir mais, procure com `search-designs` por "Matriz tipográfica".
 
 ## Fluxo
 
@@ -82,7 +94,7 @@ Slide N (Fechamento) — ...
 LEGENDA: ...
 ```
 
-Com o roteiro, mapeie cada slide a um layout da matriz (ex.: `[1,2,3,4,4,4,7,8]`).
+Com o roteiro, mapeie cada slide a uma página da matriz v2 (ex.: `[1,2,2,2,2,2,3]`).
 Se o usuário pediu para ir direto, não espere aprovação — siga; senão, peça um "ok" rápido.
 
 ### 3. Montar no Canva
@@ -90,10 +102,10 @@ Se o usuário pediu para ir direto, não espere aprovação — siga; senão, pe
 1. **Criar o design com os layouts na ordem certa** usando `merge-designs`
    (`type: create_new_design`), com operações `insert_pages` apontando para a matriz e
    repetindo páginas quando precisar de mais slides do mesmo layout. Exemplo para
-   capa + afirmação + 4 cenários + síntese + fechamento:
+   capa + afirmação + 4 cenários + síntese + fechamento (todos os internos usam a pág. 2):
    ```json
    {"type":"create_new_design","title":"VOE — <tema>",
-    "operations":[{"type":"insert_pages","source":{"type":"design","design_id":"DAHVQ6x7h9o","page_numbers":[1,2,4,4,4,4,7,8]}}]}
+    "operations":[{"type":"insert_pages","source":{"type":"design","design_id":"DAHWapQqtrQ","page_numbers":[1,2,2,2,2,2,2,3]}}]}
    ```
    Para misturar matrizes, faça várias chamadas em sequência, uma `insert_pages` por chamada:
    o `merge-designs` aceita **uma única operação por requisição** (inserir, mover ou apagar).
